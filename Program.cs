@@ -12,21 +12,27 @@ public class TestProgram
     [SetUp]
     public void SetupTest()
     {
-        //IWebDriver driver = new ChromeDriver(@"C:\my\path\to\chromedriver\directory");
-        IWebDriver driver = new ChromeDriver("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/bin/drivers/");
-        driver = new ChromeDriver();
-        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-        driver.Url ="https://andrewsoden.github.io/toast_recipes/#/";
     }
 
     [TearDown]
     public void TeardownTest()
     {
-        driver.Quit();
     }
 
     [Test]
     public void testMethod()
     {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.AddArguments("start-maximized", "incognito");
+
+        IWebDriver driver =  new ChromeDriver("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/bin/drivers/", chromeOptions);
+
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+        driver.Url ="https://andrewsoden.github.io/toast_recipes/#/";
+
+        IWebElement header = driver.FindElement(By.ClassName("title"));
+        Assert.True(header.Displayed);
+
+        driver.Quit();
     }
 }
