@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 
 [TestFixture]
-public class TestProgram
+public class TestSectionNavigation
 {
     private IWebDriver driver;
 
@@ -48,5 +48,7 @@ public class TestProgram
         IWebElement loginNavigation = driver.FindElement(By.PartialLinkText("Login"));
         loginNavigation.Click();
         Assert.True(driver.FindElement(By.XPath("//*[@id='root']/div/div[2]/div/div/h2")).Text.Contains("Rejoice for this is the Login page"));
+    
+        driver.Quit();
     }
 }
