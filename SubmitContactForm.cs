@@ -66,5 +66,19 @@ public class TestSubmitContactForm
         SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
         foundUsField.SelectByText("Friends/family");
 
+        IWebElement commentField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(8) > textarea"));
+        commentField.Click();
+        commentField.Clear();
+        commentField.SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
+
+        IWebElement submitButton = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > button"));
+        submitButton.Submit();
+
+        //Assert.IsEmpty(firstNameField.Text);
+        //Assert.IsEmpty(surnameField.Text);
+        //Assert.IsEmpty(emailField.Text);
+        //Assert.IsEmpty(passwordField.Text);
+        //Assert.IsEmpty(reEnterPasswordField.Text);
+        //Assert.IsEmpty(commentField.Text);
     }
 }
