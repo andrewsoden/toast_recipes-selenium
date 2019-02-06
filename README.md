@@ -8,3 +8,8 @@ VS Code Plugins
 Download and extract latest ChromeDriver
 From: http://chromedriver.chromium.org/
 Into: /bin/drivers
+
+## Run One Test ##
+Example:
+dotnet test --filter Name~{className}
+dotnet test --filter Name~SubmitContactForm

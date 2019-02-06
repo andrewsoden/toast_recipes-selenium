@@ -4,10 +4,12 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 
+using TestPropertiesFile;
+
 [TestFixture]
 public class TestSectionNavigation
 {
-    private IWebDriver driver;
+    //private IWebDriver driver;
 
     [SetUp]
     public void SetupTest()
@@ -20,7 +22,7 @@ public class TestSectionNavigation
     }
 
     [Test]
-    public void testMethod()
+    public void SectionNavigation()
     {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.AddArguments("start-maximized", "incognito");
@@ -29,6 +31,7 @@ public class TestSectionNavigation
 
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
         driver.Url ="https://andrewsoden.github.io/toast_recipes/#/";
+        driver.Url = TestProperties.websiteURL;
 
         IWebElement header = driver.FindElement(By.ClassName("title"));
         Assert.True(header.Displayed);

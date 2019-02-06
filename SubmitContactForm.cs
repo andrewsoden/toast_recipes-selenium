@@ -5,10 +5,12 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
 
+using TestPropertiesFile;
+
 [TestFixture]
 public class TestSubmitContactForm
 {
-    private IWebDriver driver;
+    //private IWebDriver driver;
 
     [SetUp]
     public void SetupTest()
@@ -21,7 +23,7 @@ public class TestSubmitContactForm
     }
 
     [Test]
-    public void testMethod()
+    public void SubmitContactForm()
     {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.AddArguments("start-maximized", "incognito");
@@ -29,7 +31,8 @@ public class TestSubmitContactForm
         IWebDriver driver =  new ChromeDriver("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/bin/drivers/", chromeOptions);
 
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-        driver.Url ="https://andrewsoden.github.io/toast_recipes/#/";
+        //driver.Url ="https://andrewsoden.github.io/toast_recipes/#/";
+        driver.Url = TestProperties.websiteURL;
 
         IWebElement contactNavigation = driver.FindElement(By.PartialLinkText("Contact"));
         contactNavigation.Click();
