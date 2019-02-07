@@ -9,8 +9,6 @@ using TestPropertiesFile;
 [TestFixture]
 public class TestSectionNavigation
 {
-    //private IWebDriver driver;
-
     [SetUp]
     public void SetupTest()
     {

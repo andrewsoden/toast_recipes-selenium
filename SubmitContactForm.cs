@@ -10,8 +10,6 @@ using TestPropertiesFile;
 [TestFixture]
 public class TestSubmitContactForm
 {
-    //private IWebDriver driver;
-
     [SetUp]
     public void SetupTest()
     {
@@ -31,9 +29,8 @@ public class TestSubmitContactForm
         IWebDriver driver =  new ChromeDriver("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/bin/drivers/", chromeOptions);
 
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-        //driver.Url ="https://andrewsoden.github.io/toast_recipes/#/";
         driver.Url = TestProperties.websiteURL;
-
+        
         IWebElement contactNavigation = driver.FindElement(By.PartialLinkText("Contact"));
         contactNavigation.Click();
 
@@ -75,7 +72,7 @@ public class TestSubmitContactForm
         commentField.SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
 
         IWebElement submitButton = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > button"));
-        submitButton.Submit();
+        submitButton.Click();
 
         //Assert.IsEmpty(firstNameField.Text);
         //Assert.IsEmpty(surnameField.Text);
@@ -83,5 +80,7 @@ public class TestSubmitContactForm
         //Assert.IsEmpty(passwordField.Text);
         //Assert.IsEmpty(reEnterPasswordField.Text);
         //Assert.IsEmpty(commentField.Text);
+
+        driver.Quit();
     }
 }
