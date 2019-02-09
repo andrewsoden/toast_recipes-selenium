@@ -3,6 +3,7 @@ using NUnit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 using System;
 
 using TestPropertiesFile;
@@ -26,7 +27,7 @@ public class TestSubmitContactForm
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.AddArguments("start-maximized", "incognito");
 
-        IWebDriver driver =  new ChromeDriver("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/bin/drivers/", chromeOptions);
+        IWebDriver driver =  new ChromeDriver(TestProperties.chromeDriverLocation, chromeOptions);
 
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
         driver.Url = TestProperties.websiteURL;
@@ -59,9 +60,9 @@ public class TestSubmitContactForm
         reEnterPasswordField.Clear();
         reEnterPasswordField.SendKeys("secret2019");
 
-        // To Do - does not select desired radio button
-        //IWebElement contactMethodField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(6) > input[type='radio']:nth-child(5)"));
-        //contactMethodField.Click();
+        // TODO - Does not select radio button
+        IWebElement contactMethodField = driver.FindElement(By.Id("contactEmail"));
+        contactMethodField.Click();
 
         SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
         foundUsField.SelectByText("Friends/family");
@@ -71,15 +72,11 @@ public class TestSubmitContactForm
         commentField.Clear();
         commentField.SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
 
-        IWebElement submitButton = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > button"));
-        submitButton.Click();
-
-        //Assert.IsEmpty(firstNameField.Text);
-        //Assert.IsEmpty(surnameField.Text);
-        //Assert.IsEmpty(emailField.Text);
-        //Assert.IsEmpty(passwordField.Text);
-        //Assert.IsEmpty(reEnterPasswordField.Text);
-        //Assert.IsEmpty(commentField.Text);
+        IWebElement submitButton = driver.FindElement(By.Id("submitButton"));
+        Actions actions = new Actions(driver);
+        actions.MoveToElement(submitButton);
+        actions.Perform();
+        submitButton.Submit();
 
         driver.Quit();
     }
