@@ -8,76 +8,74 @@ using System;
 
 using TestPropertiesFile;
 
-[TestFixture]
-public class TestSubmitContactForm
+namespace Test_SubmitContactForm
 {
-    [SetUp]
-    public void SetupTest()
+    public class Test_SubmitContactForm
     {
-    }
+        private IWebDriver driver;
 
-    [TearDown]
-    public void TeardownTest()
-    {
-    }
+        [SetUp]
+        public void SetUp()
+        {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("start-maximized", "incognito");
 
-    [Test]
-    public void SubmitContactForm()
-    {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.AddArguments("start-maximized", "incognito");
+            driver =  new ChromeDriver(TestProperties.chromeDriverLocation, chromeOptions);
 
-        IWebDriver driver =  new ChromeDriver(TestProperties.chromeDriverLocation, chromeOptions);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            driver.Url = TestProperties.websiteURL;
+        }
 
-        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-        driver.Url = TestProperties.websiteURL;
-        
-        IWebElement contactNavigation = driver.FindElement(By.PartialLinkText("Contact"));
-        contactNavigation.Click();
+        [Test]
+        public void SubmitContactForm()
+        {   
+            IWebElement contactNavigation = driver.FindElement(By.PartialLinkText("Contact"));
+            contactNavigation.Click();
 
-        IWebElement firstNameField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(1) > input"));
-        firstNameField.Click();
-        firstNameField.Clear();
-        firstNameField.SendKeys("Doctor");
+            IWebElement firstNameField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(1) > input"));
+            firstNameField.Click();
+            firstNameField.Clear();
+            firstNameField.SendKeys("Doctor");
 
-        IWebElement surnameField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(2) > input"));
-        surnameField.Click();
-        surnameField.Clear();
-        surnameField.SendKeys("Tester");
+            IWebElement surnameField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(2) > input"));
+            surnameField.Click();
+            surnameField.Clear();
+            surnameField.SendKeys("Tester");
 
-        IWebElement emailField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(3) > input"));
-        emailField.Click();
-        emailField.Clear();
-        emailField.SendKeys("thetester@test.com.au");
+            IWebElement emailField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(3) > input"));
+            emailField.Click();
+            emailField.Clear();
+            emailField.SendKeys("thetester@test.com.au");
 
-        IWebElement passwordField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(4) > input"));
-        passwordField.Click();
-        passwordField.Clear();
-        passwordField.SendKeys("secret2019");
+            IWebElement passwordField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(4) > input"));
+            passwordField.Click();
+            passwordField.Clear();
+            passwordField.SendKeys("secret2019");
 
-        IWebElement reEnterPasswordField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(5) > input"));
-        reEnterPasswordField.Click();
-        reEnterPasswordField.Clear();
-        reEnterPasswordField.SendKeys("secret2019");
+            IWebElement reEnterPasswordField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(5) > input"));
+            reEnterPasswordField.Click();
+            reEnterPasswordField.Clear();
+            reEnterPasswordField.SendKeys("secret2019");
 
-        // TODO - Does not select radio button
-        IWebElement contactMethodField = driver.FindElement(By.Id("contactEmail"));
-        contactMethodField.Click();
+            // TODO - Does not select radio button
+            IWebElement contactMethodField = driver.FindElement(By.Id("contactEmail"));
+            contactMethodField.Click();
 
-        SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
-        foundUsField.SelectByText("Friends/family");
+            SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
+            foundUsField.SelectByText("Friends/family");
 
-        IWebElement commentField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(8) > textarea"));
-        commentField.Click();
-        commentField.Clear();
-        commentField.SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
+            IWebElement commentField = driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(8) > textarea"));
+            commentField.Click();
+            commentField.Clear();
+            commentField.SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
 
-        IWebElement submitButton = driver.FindElement(By.Id("submitButton"));
-        Actions actions = new Actions(driver);
-        actions.MoveToElement(submitButton);
-        actions.Perform();
-        submitButton.Submit();
+            IWebElement submitButton = driver.FindElement(By.Id("submitButton"));
+            Actions actions = new Actions(driver);
+            actions.MoveToElement(submitButton);
+            actions.Perform();
+            submitButton.Submit();
 
-        driver.Quit();
+            driver.Quit();
+        }
     }
 }

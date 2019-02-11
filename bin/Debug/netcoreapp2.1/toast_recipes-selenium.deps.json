@@ -1,13 +1,14 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "ec45e97f7ac4fa752ba155b6d06668e65341a8c1"
+    "signature": "30a2d392b590b90a56b9454b214a2e436a7d5aa1"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.1": {
       "toast_recipes-selenium/1.0.0": {
         "dependencies": {
+          "DotNetSeleniumExtras.PageObjects": "3.11.0",
           "Microsoft.NET.Test.Sdk": "15.9.0",
           "NUnit": "3.11.0",
           "NUnit3TestAdapter": "3.12.0",
@@ -16,6 +17,17 @@
         },
         "runtime": {
           "toast_recipes-selenium.dll": {}
+        }
+      },
+      "DotNetSeleniumExtras.PageObjects/3.11.0": {
+        "dependencies": {
+          "Selenium.WebDriver": "3.141.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SeleniumExtras.PageObjects.dll": {
+            "assemblyVersion": "3.11.0.0",
+            "fileVersion": "3.11.0.0"
+          }
         }
       },
       "Microsoft.CodeCoverage/15.9.0": {
@@ -1032,6 +1044,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "DotNetSeleniumExtras.PageObjects/3.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-C7Ourmbhpp02kSXkWg/E5kThargoQiZgCZi053r/X0jwAk7wXlID6UlGHRBr/5+NNvojdKwHgCv1Mw0iU7iqWg==",
+      "path": "dotnetseleniumextras.pageobjects/3.11.0",
+      "hashPath": "dotnetseleniumextras.pageobjects.3.11.0.nupkg.sha512"
     },
     "Microsoft.CodeCoverage/15.9.0": {
       "type": "package",
