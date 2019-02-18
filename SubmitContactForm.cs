@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.Extensions;
 using System;
 
 using TestPropertiesFile;
@@ -22,7 +23,7 @@ namespace Test_SubmitContactForm
 
             driver =  new ChromeDriver(TestProperties.chromeDriverLocation, chromeOptions);
 
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
             driver.Url = TestProperties.websiteURL;
         }
 
@@ -34,39 +35,56 @@ namespace Test_SubmitContactForm
 
         [Test]
         public void SubmitContactForm()
-        {   
-            driver.FindElement(By.PartialLinkText("Contact")).Click();
+        {
+            try
+            {
+                driver.FindElement(By.PartialLinkText("Contact")).Click();
 
-            driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(1) > input"))
-            .SendKeys("Doctor");
+                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(1) > input"))
+                .SendKeys("Doctor");
 
-            driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(2) > input"))
-            .SendKeys("Tester");
+                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(2) > input"))
+                .SendKeys("Tester");
 
-            driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(3) > input"))
-            .SendKeys("thetester@test.com.au");
+                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(3) > input"))
+                .SendKeys("thetester@test.com.au");
 
-            driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(4) > input"))
-            .SendKeys("secret2019");
+                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(4) > input"))
+                .SendKeys("secret2019");
 
-            driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(5) > input"))
-            .SendKeys("secret2019");
+                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(5) > input"))
+                .SendKeys("secret2019");
 
-            // TODO - Does not select radio button
-            IWebElement contactMethodField = driver.FindElement(By.Id("contactEmail"));
-            contactMethodField.Click();
+                // TODO - Does not select radio button
+                IWebElement contactMethodField = driver.FindElement(By.Id("contactEmail"));
+                contactMethodField.Click();
 
-            SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
-            foundUsField.SelectByText("Friends/family");
+                SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
+                foundUsField.SelectByText("Friends/family");
 
-            driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(8) > textarea"))
-            .SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
+                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(8) > textarea"))
+                .SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
 
-            IWebElement submitButton = driver.FindElement(By.Id("submitButton"));
-            Actions actions = new Actions(driver);
-            actions.MoveToElement(submitButton);
-            actions.Perform();
-            submitButton.Submit();
+                IWebElement submitButton = driver.FindElement(By.Id("submitButton"));
+                Actions actions = new Actions(driver);
+                actions.MoveToElement(submitButton);
+                actions.Perform();
+                submitButton.Submit();
+            }
+            catch(Exception ex)
+            {
+                using (System.IO.StreamWriter file = 
+                new System.IO.StreamWriter("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/log.txt", true))
+                {
+                    file.WriteLine("* * * * * * * * * * * * * * * * * *");
+                    file.WriteLine("Test: " + NUnit.Framework.TestContext.CurrentContext.Test.FullName);
+                    file.WriteLine("Execution Time: " + DateTime.Now.ToString("HH:mm:ss"));
+                    file.WriteLine("Message: " + ex.Message);
+                    file.WriteLine("StackTrace: " + ex.StackTrace);
+                }
+
+                driver.TakeScreenshot().SaveAsFile("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/test.jpeg", ScreenshotImageFormat.Jpeg);
+            }
         }
     }
 }
