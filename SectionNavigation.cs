@@ -12,6 +12,7 @@ namespace Test_SectionNavigation
     class Test_SectionNavigation
     {
         private IWebDriver driver;
+        private string currentTestName = NUnit.Framework.TestContext.CurrentContext.Test.FullName;
 
         [SetUp]
         public void SetUp()
@@ -58,16 +59,20 @@ namespace Test_SectionNavigation
             catch (Exception ex)
             {
                 using (System.IO.StreamWriter file = 
-                new System.IO.StreamWriter("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/log.txt", true))
+                new System.IO.StreamWriter(TestProperties.logDirectory, true))
                 {
                     file.WriteLine("* * * * * * * * * * * * * * * * * *");
-                    file.WriteLine("Test: " + NUnit.Framework.TestContext.CurrentContext.Test.FullName);
+                    file.WriteLine("Test: " + currentTestName);
                     file.WriteLine("Execution Time: " + DateTime.Now.ToString("HH:mm:ss"));
                     file.WriteLine("Message: " + ex.Message);
                     file.WriteLine("StackTrace: " + ex.StackTrace);
                 }
 
-                driver.TakeScreenshot().SaveAsFile("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/test.jpeg", ScreenshotImageFormat.Jpeg);
+                Screenshot image = ((ITakesScreenshot)driver).GetScreenshot();
+                image.SaveAsFile("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/logs/Screenshot2.Png"
+                , ScreenshotImageFormat.Png);
+
+                Assert.Fail();
             }
         }
     }
