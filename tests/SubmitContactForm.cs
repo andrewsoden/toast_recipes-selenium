@@ -6,8 +6,10 @@ using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using System;
+using System.IO;
 
-using TestPropertiesFile;
+using EnvironmentConfig;
+using ContactConfig;
 
 namespace Test_SubmitContactForm
 {
@@ -22,10 +24,10 @@ namespace Test_SubmitContactForm
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("start-maximized", "incognito");
 
-            driver =  new ChromeDriver(TestProperties.chromeDriverLocation, chromeOptions);
+            driver =  new ChromeDriver(EnvironmentConfigValues.chromeDriverLocation, chromeOptions);
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
-            driver.Url = TestProperties.websiteURL;
+            driver.Url = EnvironmentConfigValues.websiteURL;
         }
 
         [TearDown]
@@ -39,34 +41,24 @@ namespace Test_SubmitContactForm
         {
             try
             {
-                driver.FindElement(By.PartialLinkText("Contact")).Click();
-
-                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(1) > input"))
-                .SendKeys("Doctor");
-
-                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(2) > input"))
-                .SendKeys("Tester");
-
-                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(3) > input"))
-                .SendKeys("thetester@test.com.au");
-
-                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(4) > input"))
-                .SendKeys("secret2019");
-
-                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(5) > input"))
-                .SendKeys("secret2019");
+                driver.FindElement(By.PartialLinkText(ContactConfigValues.textContactLink)).Click();
+                driver.FindElement(By.CssSelector(ContactConfigValues.textFirstName)).SendKeys("Doctor");
+                driver.FindElement(By.CssSelector(ContactConfigValues.textSurname)).SendKeys("Tester");
+                driver.FindElement(By.CssSelector(ContactConfigValues.textEmail)).SendKeys("thetester@test.com.au");
+                driver.FindElement(By.CssSelector(ContactConfigValues.textPassword)).SendKeys("secret2019");
+                driver.FindElement(By.CssSelector(ContactConfigValues.textRePassword)).SendKeys("secret2019");
 
                 // TODO - Does not select radio button
                 IWebElement contactMethodField = driver.FindElement(By.Id("contactEmail"));
                 contactMethodField.Click();
 
-                SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(7) > select")));
+                SelectElement foundUsField = new SelectElement(driver.FindElement(By.CssSelector(ContactConfigValues.listHowHeadAboutUs)));
                 foundUsField.SelectByText("Friends/family");
 
-                driver.FindElement(By.CssSelector("#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(8) > textarea"))
+                driver.FindElement(By.CssSelector(ContactConfigValues.textComments))
                 .SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.!?@0123456789");
 
-                IWebElement submitButton = driver.FindElement(By.Id("submitButton"));
+                IWebElement submitButton = driver.FindElement(By.Id(ContactConfigValues.buttonSubmit));
                 Actions actions = new Actions(driver);
                 actions.MoveToElement(submitButton);
                 actions.Perform();
@@ -75,18 +67,18 @@ namespace Test_SubmitContactForm
             catch(Exception ex)
             {
                 using (System.IO.StreamWriter file = 
-                new System.IO.StreamWriter(TestProperties.logDirectory, true))
+                new System.IO.StreamWriter(EnvironmentConfigValues.logDirectory, true))
                 {
                     file.WriteLine("* * * * * * * * * * * * * * * * * *");
-                    file.WriteLine("Test: " + currentTestName);
+                    file.WriteLine("Test: " + NUnit.Framework.TestContext.CurrentContext.Test.Name);
                     file.WriteLine("Execution Time: " + DateTime.Now.ToString("HH:mm:ss"));
                     file.WriteLine("Message: " + ex.Message);
                     file.WriteLine("StackTrace: " + ex.StackTrace);
                 }
 
+                string FileName = Path.Combine(EnvironmentConfigValues.screenshotDirectory, NUnit.Framework.TestContext.CurrentContext.Test.Name + ".PNG");
                 Screenshot image = ((ITakesScreenshot)driver).GetScreenshot();
-                image.SaveAsFile("/users/andrewsoden/Desktop/Andrew/git/toast_recipes-selenium/logs/Screenshot1.Png"
-                , ScreenshotImageFormat.Png);
+                image.SaveAsFile(FileName, ScreenshotImageFormat.Png);
 
                 Assert.Fail();
             }
