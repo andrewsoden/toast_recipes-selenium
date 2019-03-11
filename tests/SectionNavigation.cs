@@ -46,16 +46,16 @@ namespace Test_SectionNavigation
                 Assert.True(header.Displayed);
 
                 driver.FindElement(By.PartialLinkText(HomeConfigValues.textHomeLink)).Click();
-                Assert.True(driver.FindElement(By.XPath("//*[@id='root']/div/div[2]/div/div/h2")).Text.Contains(HomeConfigValues.textHomeHeading)); 
+                Assert.True(driver.FindElement(By.XPath(HomeConfigValues.pageHeading)).Text.Contains(HomeConfigValues.textHomeHeading)); 
 
                 driver.FindElement(By.PartialLinkText(InformationConfigValues.textInformationLink)).Click();
-                Assert.True(driver.FindElement(By.XPath("//*[@id='root']/div/div[2]/div/div/h2")).Text.Contains(InformationConfigValues.textInformationHeading));
+                Assert.True(driver.FindElement(By.XPath(InformationConfigValues.pageHeading)).Text.Contains(InformationConfigValues.textInformationHeading));
 
                 driver.FindElement(By.PartialLinkText(ContactConfigValues.textContactLink)).Click();
-                Assert.True(driver.FindElement(By.XPath("//*[@id='root']/div/div[2]/div/div/h1")).Text.Contains(ContactConfigValues.textContactHeading));
+                Assert.True(driver.FindElement(By.XPath(ContactConfigValues.pageHeading)).Text.Contains(ContactConfigValues.textContactHeading));
 
                 driver.FindElement(By.PartialLinkText(LoginConfigValues.textLoginLink)).Click();
-                Assert.True(driver.FindElement(By.XPath("//*[@id='root']/div/div[2]/div/div/h2")).Text.Contains(LoginConfigValues.textLoginHeading));
+                Assert.True(driver.FindElement(By.XPath(LoginConfigValues.pageHeading)).Text.Contains(LoginConfigValues.textLoginHeading));
             }
             catch (Exception ex)
             {
