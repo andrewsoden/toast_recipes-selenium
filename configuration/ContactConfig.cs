@@ -3,7 +3,7 @@ namespace ContactConfig
     class ContactConfigValues
     {
         public static string textContactLink = "Contact";
-        public static string pageHeading = "//*[@id='root']/div/div[2]/div/div/h1";
+        public static string pageHeading = "//*[@id='root']/div/div[2]/div/div/h2";
         public static string textContactHeading = "Contact";
         public static string textFirstName = "#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(1) > input";
         public static string textSurname = "#root > div > div:nth-child(2) > div > div > form > div > div > div:nth-child(2) > input";
